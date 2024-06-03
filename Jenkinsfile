@@ -4,43 +4,43 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                // Example build tool
+                // Ensure Maven is installed and configured
                 sh 'mvn clean package'
             }
         }
         stage('Unit and Integration Tests') {
             steps {
-                // Example test tools
+                // Run unit and integration tests
                 sh 'mvn test'
             }
         }
         stage('Code Analysis') {
             steps {
-                // Example code analysis tool
+                // Run code analysis
                 sh 'sonar-scanner'
             }
         }
         stage('Security Scan') {
             steps {
-                // Example security scan tool
+                // Run security scan
                 sh 'dependency-check --project JenkinsPipeline --scan .'
             }
         }
         stage('Deploy to Staging') {
             steps {
-                // Example deploy to staging
+                // Deploy to staging
                 sh 'scp target/*.jar user@staging-server:/path/to/deploy'
             }
         }
         stage('Integration Tests on Staging') {
             steps {
-                // Example integration tests on staging
+                // Run integration tests on staging
                 sh 'mvn verify -Pstaging'
             }
         }
         stage('Deploy to Production') {
             steps {
-                // Example deploy to production
+                // Deploy to production
                 sh 'scp target/*.jar user@production-server:/path/to/deploy'
             }
         }

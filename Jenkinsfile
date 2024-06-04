@@ -27,6 +27,20 @@ pipeline {
         }
       }
     }
+    stage('Code Analysis') {
+      steps {
+        script {
+          echo "Performing Code Analysis"
+        }
+      }
+    }
+    stage('Security Scan') {
+      steps {
+        script {
+          echo "Performing Security Scan"
+        }
+      }
+    }
     stage('Deploy to Staging') {
       steps {
         script {

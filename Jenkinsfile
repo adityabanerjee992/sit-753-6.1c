@@ -15,7 +15,6 @@ pipeline {
       steps {
         script {
           buildOutput = sh(script: 'mvn clean package', returnStdout: true).trim()
-          writeFile file: 'buildOutput.log', text: buildOutput
           echo "Build Stage Output:\n ${buildOutput}"
         }
       }
@@ -24,7 +23,6 @@ pipeline {
       steps {
         script {
           testOutput = sh(script: 'mvn test', returnStdout: true).trim()
-          writeFile file: 'testOutput.log', text: testOutput
           echo "Test Stage Output:\n ${testOutput}"
         }
       }
@@ -58,24 +56,16 @@ pipeline {
   post {
     success {
       script {
-        emailext (
-          to: 'adityabanerjee992@gmail.com',
-          subject: "Pipeline Success",
-          body: "Build succeeded.\n\nBuild Stage Output:\n ${buildOutput}\n\nTest Stage Output:\n ${testOutput}",
-          attachmentsPattern: 'buildOutput.log,testOutput.log',
-          mimeType: 'text/plain'
-        )
+        mail to: 'adityabanerjee992@gmail.com',
+            subject: "Pipeline Success",
+            body: "Build succeeded.\n\nBuild Stage Output:\n ${buildOutput}\n\nTest Stage Output:\n ${testOutput}"
       }
     }
     failure {
       script {
-        emailext (
-          to: 'adityabanerjee992@gmail.com',
-          subject: "Pipeline Failure",
-          body: "Build failed.\n\nBuild Stage Output:\n ${buildOutput}\n\nTest Stage Output:\n ${testOutput}",
-          attachmentsPattern: 'buildOutput.log,testOutput.log',
-          mimeType: 'text/plain'
-        )
+        mail to: 'adityabanerjee992@gmail.com',
+            subject: "Pipeline Failure",
+            body: "Build failed.\n\nBuild Stage Output:\n ${buildOutput}\n\nTest Stage Output:\n ${testOutput}"
       }
     }
   }

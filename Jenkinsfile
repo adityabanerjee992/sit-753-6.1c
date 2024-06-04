@@ -58,19 +58,8 @@ pipeline {
   post {
     success {
       script {
-        emailext to: 'adityabanerjee992@gmail.com',
-            subject: "Pipeline Success",
-            body: "Build succeeded.",
-            attachmentsPattern: 'buildOutput.log,testOutput.log'
-      }
-    }
-    failure {
-      script {
-        emailext to: 'adityabanerjee992@gmail.com',
-            subject: "Pipeline Failure",
-            body: "Build failed.",
-            attachmentsPattern: 'buildOutput.log,testOutput.log'
-      }
-    }
-  }
-}
+        emailext (
+          to: 'adityabanerjee992@gmail.com',
+          subject: "Pipeline Success",
+          body: "Build succeeded.\n\nBuild Stage Output:\n ${buildOutput}\n\nTest Stage Output:\n ${testOutput}",
+          attachm

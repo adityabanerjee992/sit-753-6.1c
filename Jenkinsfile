@@ -5,8 +5,8 @@ pipeline {
     stage('Build') {
       steps {
         script {
-          def buildOutput = captureOutput(text: 'mvn clean package', returnStdout: true)
-          // Send the entire console output (logs) in success email (no changes needed)
+          def buildOutput = pipeline.captureOutput(text: 'mvn clean package', returnStdout: true)
+          echo "Build Stage Output:\n ${buildOutput}"  // This line is for demonstration only, remove in production
           mail to: 'adityabanerjee992@gmail.com',
               subject: "Pipeline Build Output",
               body: "Build Stage Output:\n ${buildOutput}"
@@ -16,8 +16,8 @@ pipeline {
     stage('Unit and Integration Tests') {
       steps {
         script {
-          def testOutput = captureOutput(text: 'mvn test', returnStdout: true)
-          // Send the entire console output (logs) in success email (no changes needed)
+          def testOutput = pipeline.captureOutput(text: 'mvn test', returnStdout: true)
+          echo "Test Stage Output:\n ${testOutput}"  // This line is for demonstration only, remove in production
           mail to: 'adityabanerjee992@gmail.com',
               subject: "Pipeline Test Output",
               body: "Test Stage Output:\n ${testOutput}"

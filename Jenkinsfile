@@ -5,6 +5,11 @@ pipeline {
     maven 'maven' // Adjust this to the name you used in Global Tool Configuration
   }
 
+  environment {
+    MAVEN_HOME = tool name: 'maven', type: 'hudson.tasks.Maven$MavenInstallation'
+    PATH = "${env.MAVEN_HOME}/bin:${env.PATH}"
+  }
+
   stages {
     stage('Build') {
       steps {

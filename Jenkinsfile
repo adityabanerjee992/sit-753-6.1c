@@ -2,11 +2,11 @@ pipeline {
   agent any
 
   tools {
-    maven 'maven' // Adjust this to the name you used in Global Tool Configuration
+    maven 'Maven 3.6.3' // Adjust this to the name you used in Global Tool Configuration
   }
 
   environment {
-    MAVEN_HOME = tool name: 'maven', type: 'hudson.tasks.Maven$MavenInstallation'
+    MAVEN_HOME = tool name: 'Maven 3.6.3', type: 'hudson.tasks.Maven$MavenInstallation'
     PATH = "${env.MAVEN_HOME}/bin:${env.PATH}"
   }
 
@@ -62,4 +62,21 @@ pipeline {
           to: 'adityabanerjee992@gmail.com',
           subject: "Pipeline Success",
           body: "Build succeeded.\n\nBuild Stage Output:\n ${buildOutput}\n\nTest Stage Output:\n ${testOutput}",
-          attachm
+          attachmentsPattern: 'buildOutput.log,testOutput.log',
+          mimeType: 'text/plain'
+        )
+      }
+    }
+    failure {
+      script {
+        emailext (
+          to: 'adityabanerjee992@gmail.com',
+          subject: "Pipeline Failure",
+          body: "Build failed.\n\nBuild Stage Output:\n ${buildOutput}\n\nTest Stage Output:\n ${testOutput}",
+          attachmentsPattern: 'buildOutput.log,testOutput.log',
+          mimeType: 'text/plain'
+        )
+      }
+    }
+  }
+}

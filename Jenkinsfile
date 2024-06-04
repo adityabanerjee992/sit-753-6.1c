@@ -14,22 +14,16 @@ pipeline {
     stage('Build') {
       steps {
         script {
-          def buildOutput = sh(script: 'mvn clean package', returnStdout: true).trim()
-          echo "Build Stage Output:\n ${buildOutput}"  // This line is for demonstration only, remove in production
-          mail to: 'adityabanerjee992@gmail.com',
-              subject: "Pipeline Build Output",
-              body: "Build Stage Output:\n ${buildOutput}"
+          buildOutput = sh(script: 'mvn clean package', returnStdout: true).trim()
+          echo "Build Stage Output:\n ${buildOutput}"
         }
       }
     }
     stage('Unit and Integration Tests') {
       steps {
         script {
-          def testOutput = sh(script: 'mvn test', returnStdout: true).trim()
-          echo "Test Stage Output:\n ${testOutput}"  // This line is for demonstration only, remove in production
-          mail to: 'adityabanerjee992@gmail.com',
-              subject: "Pipeline Test Output",
-              body: "Test Stage Output:\n ${testOutput}"
+          testOutput = sh(script: 'mvn test', returnStdout: true).trim()
+          echo "Test Stage Output:\n ${testOutput}"
         }
       }
     }
@@ -61,14 +55,18 @@ pipeline {
 
   post {
     success {
-      mail to: 'adityabanerjee992@gmail.com',
-          subject: "Pipeline Success",
-          body: "Build succeeded."
+      script {
+        mail to: 'adityabanerjee992@gmail.com',
+            subject: "Pipeline Success",
+            body: "Build succeeded.\n\nBuild Stage Output:\n ${buildOutput}\n\nTest Stage Output:\n ${testOutput}"
+      }
     }
     failure {
-      mail to: 'adityabanerjee992@gmail.com',
-          subject: "Pipeline Failure",
-          body: "Build failed."
+      script {
+        mail to: 'adityabanerjee992@gmail.com',
+            subject: "Pipeline Failure",
+            body: "Build failed.\n\nBuild Stage Output:\n ${buildOutput}\n\nTest Stage Output:\n ${testOutput}"
+      }
     }
   }
 }

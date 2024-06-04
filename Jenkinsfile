@@ -2,11 +2,11 @@ pipeline {
   agent any
 
   tools {
-    maven 'Maven 3.6.3' // Adjust this to the name you used in Global Tool Configuration
+    maven 'maven' // Adjust this to the name you used in Global Tool Configuration
   }
 
   environment {
-    MAVEN_HOME = tool name: 'Maven 3.6.3', type: 'hudson.tasks.Maven$MavenInstallation'
+    MAVEN_HOME = tool name: 'maven', type: 'hudson.tasks.Maven$MavenInstallation'
     PATH = "${env.MAVEN_HOME}/bin:${env.PATH}"
   }
 

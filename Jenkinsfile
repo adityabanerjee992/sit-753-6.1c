@@ -78,7 +78,7 @@ pipeline {
     failure {
       script {
         mail to: 'adityabanerjee992@gmail.com',
-            subject: "Pipeline Failure",
+            subject: "Pipeline Failure ",
             body: "Build failed.\n\nBuild Stage Output:\n ${buildOutput}\n\nTest Stage Output:\n ${testOutput}"
       }
     }

@@ -5,7 +5,7 @@ pipeline {
     stage('Build') {
       steps {
         script {
-          def buildOutput = pipeline.captureOutput(text: 'mvn clean package', returnStdout: true)
+          def buildOutput = sh(script: 'mvn clean package', returnStdout: true).trim()
           echo "Build Stage Output:\n ${buildOutput}"  // This line is for demonstration only, remove in production
           mail to: 'adityabanerjee992@gmail.com',
               subject: "Pipeline Build Output",
@@ -16,7 +16,7 @@ pipeline {
     stage('Unit and Integration Tests') {
       steps {
         script {
-          def testOutput = pipeline.captureOutput(text: 'mvn test', returnStdout: true)
+          def testOutput = sh(script: 'mvn test', returnStdout: true).trim()
           echo "Test Stage Output:\n ${testOutput}"  // This line is for demonstration only, remove in production
           mail to: 'adityabanerjee992@gmail.com',
               subject: "Pipeline Test Output",
@@ -26,20 +26,26 @@ pipeline {
     }
     stage('Deploy to Staging') {
       steps {
-        // Deploy to staging
-        echo 'deploy to staging'
+        script {
+          echo 'Deploy to staging'
+          // Add your deployment commands here
+        }
       }
     }
     stage('Integration Tests on Staging') {
       steps {
-        // Run integration tests on staging
-        echo 'run integrations test'
+        script {
+          echo 'Run integration tests on staging'
+          // Add your integration test commands here
+        }
       }
     }
     stage('Deploy to Production') {
       steps {
-        // Deploy to production
-        echo 'deploy to prod'
+        script {
+          echo 'Deploy to production'
+          // Add your deployment commands here
+        }
       }
     }
   }
